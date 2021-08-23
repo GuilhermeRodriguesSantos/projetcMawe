@@ -4,6 +4,7 @@ import { produto } from 'src/app/model/produto';
 import { CategoriaService } from 'src/app/service/categoria.service';
 import { ProdutoService } from 'src/app/service/produto.service';
 import { environment } from 'src/environments/environment.prod';
+import { Usuario } from 'src/app/model/Usuario';
 
 @Component({
   selector: 'app-produtos-apagar',
@@ -14,6 +15,8 @@ export class ProdutosApagarComponent implements OnInit {
 
   Produto: produto = new produto()
   idProduto:number
+  listaProdutos: produto[]
+  usuario: Usuario = new Usuario()
 
   constructor(
     private categoriaService: CategoriaService,
@@ -29,6 +32,12 @@ export class ProdutosApagarComponent implements OnInit {
     this.idProduto = this.route.snapshot.params['id']
     this.findByIdCategoria(this.idProduto)
     
+  }
+  getAllProduto(){
+    this.produtoService.getAllProduto().subscribe((resp: produto[]) => {
+        this.listaProdutos = resp
+  
+    })
   }
 
 

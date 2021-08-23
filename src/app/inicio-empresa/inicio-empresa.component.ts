@@ -7,6 +7,7 @@ import { Usuario } from '../model/Usuario';
 import { AuthService } from '../service/auth.service';
 import { CategoriaService } from '../service/categoria.service';
 import { ProdutoService } from '../service/produto.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-inicio-empresa',
@@ -33,14 +34,13 @@ export class InicioEmpresaComponent implements OnInit {
     private authService: AuthService
   ) { }
 
-  ngOnInit() {
-
-
-
-    environment.menu = true
-    
+  ngOnInit() {    
     if(environment.token == ''){
-      alert('Sua sessão expirou, por favor se logue novamente!')
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Sua sessão foi encerada, Logue-se Novamente!'
+      })
       this.router.navigate(['/Logar'])
     }
       
@@ -86,7 +86,12 @@ findByIdUsuario(){
     console.log("Produto "+JSON.stringify(this.Produto))
     this.produtoService.postProduto(this.Produto).subscribe((resp: produto) => {
       this.Produto = resp
-      alert('Produto cadastrado com sucesso!')
+      Swal.fire({
+        icon: 'success',
+        title: 'Produto Cadastrado com Sucesso',
+        text: 'Seu produto está em análise por 48H!',
+      })
+    
       this.Produto = new produto()
       this.getAllProduto()
     })
